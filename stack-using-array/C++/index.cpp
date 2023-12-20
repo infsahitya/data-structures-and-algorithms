@@ -1,4 +1,5 @@
 #include <iostream>
+#include <stdexcept>
 
 template <class T>
 class Stack
@@ -61,8 +62,7 @@ void Stack<T>::push(const T &element)
     stack[++top] = element;
     return;
   }
-
-  std::cout << "Stack overflow" << std::endl;
+  throw std::overflow_error("Stack Overflow");
 }
 
 template <class T>
@@ -70,8 +70,7 @@ T &Stack<T>::pop()
 {
   if (!isEmpty())
     return (stack[top--]);
-
-  std::cout << "Stack underflow" << std::endl;
+  throw std::underflow_error("Stack Underflow");
 }
 
 template <class T>
