@@ -17,12 +17,13 @@ public:
   Stack(const Stack<T> &copyStack);
   Stack<T> &operator=(const Stack<T> &copyStack);
   ~Stack();
-  T &getTop();
   T &pop();
-  void push(const T &element);
-  bool isEmpty();
+  T &getTop();
   bool isFull();
+  bool isEmpty();
+  void display();
   size_t currentSize();
+  void push(const T &element);
 };
 
 #include "stack.cpp"

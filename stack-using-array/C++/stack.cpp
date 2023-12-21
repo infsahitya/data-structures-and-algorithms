@@ -80,3 +80,25 @@ size_t Stack<T>::currentSize()
 {
   return (top + 1);
 }
+
+template <class T>
+void Stack<T>::display()
+{
+  size_t traverseSize{this->currentSize() - 1};
+  for (int i{traverseSize}; i >= 0; --i)
+  {
+    std::cout << this->stack[i];
+    if (i == traverseSize)
+    {
+      std::cout << "  <--- Top" << std::endl;
+    }
+    else if (i == 0)
+    {
+      std::cout << "  <--- Bottom" << std::endl;
+    }
+    else
+    {
+      std::cout << std::endl;
+    }
+  }
+}
