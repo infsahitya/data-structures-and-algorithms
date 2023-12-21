@@ -51,9 +51,9 @@ template <class T>
 T &Stack<T>::getTop()
 {
   if (!isEmpty())
-    return (stack[top]);
+    return (this->stack[top]);
 
-  std::cout << "Stack is empty" << std::endl;
+  throw std::out_of_range("Stack is currently empty.");
 }
 
 template <class T>
@@ -85,7 +85,7 @@ template <class T>
 void Stack<T>::display()
 {
   size_t traverseSize{this->currentSize() - 1};
-  for (int i{traverseSize}; i >= 0; --i)
+  for (int i{static_cast<int>(traverseSize)}; i >= 0; --i)
   {
     std::cout << this->stack[i];
     if (i == traverseSize)

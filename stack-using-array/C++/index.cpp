@@ -56,7 +56,8 @@ int main()
       }
       else if (userChoice == "t")
       {
-        std::cout << "Top element of the stack is " << intStack.getTop();
+        const int &topElement = intStack.getTop();
+        std::cout << "Top element of the stack is " << topElement;
       }
     }
     catch (const std::overflow_error &error)
@@ -64,6 +65,10 @@ int main()
       std::cerr << "Exception: " << error.what() << std::endl;
     }
     catch (const std::underflow_error &error)
+    {
+      std::cerr << "Exception: " << error.what() << std::endl;
+    }
+    catch (const std::out_of_range &error)
     {
       std::cerr << "Exception: " << error.what() << std::endl;
     }
