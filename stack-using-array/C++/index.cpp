@@ -1,80 +1,36 @@
 #include <iostream>
 #include <stdexcept>
+#include "stack.h"
 
-template <class T>
-class Stack
+int main()
 {
-private:
-  T *stack;
-  int top;
-  size_t maxSize;
+  size_t userStackSize{0};
 
-public:
-  Stack(size_t stackSize = 999);
-  ~Stack();
-  T &getTop();
-  T &pop();
-  void push(const T &element);
-  bool isEmpty();
-  bool isFull();
-  size_t currentSize();
-};
+  std::cout << "What should be the size of your integer stack?";
+  std::cin >> userStackSize;
+  std::cout << std::endl;
 
-template <class T>
-Stack<T>::Stack(size_t stackSize) : maxSize{stackSize}
-{
-  stack = new T[maxSize];
-  top{-1};
-}
+  Stack<int> stack1(userStackSize);
 
-template <class T>
-Stack<T>::~Stack()
-{
-  delete[] stack;
-}
-
-template <class T>
-bool Stack<T>::isEmpty()
-{
-  return (top == -1);
-}
-
-template <class T>
-bool Stack<T>::isFull()
-{
-  return (top == maxSize - 1);
-}
-
-template <class T>
-T &Stack<T>::getTop()
-{
-  if (!isEmpty())
-    return (stack[top]);
-
-  std::cout << "Stack is empty" << std::endl;
-}
-
-template <class T>
-void Stack<T>::push(const T &element)
-{
-  if (!isFull())
+  try
   {
-    stack[++top] = element;
-    return;
+    std::cout << "Enter the " << userStackSize << " integer values for you stack..." << std::endl;
+
+    for (int i{0}; i < userStackSize; ++i)
+    {
+      int tempStackValue;
+      std::cin >> tempStackValue;
+      stack1.push(tempStackValue);
+    }
   }
-  throw std::overflow_error("Stack Overflow");
-}
+  catch (const std::overflow_error &error)
+  {
+    std::cerr << "Exception: " << error.what() << std::endl;
+  }
+  catch (const std::underflow_error &error)
+  {
+    std::cerr << "Exception: " << error.what() << std::endl;
+  }
 
-template <class T>
-T &Stack<T>::pop()
-{
-  if (!isEmpty())
-    return (stack[top--]);
-  throw std::underflow_error("Stack Underflow");
-}
-
-template <class T>
-size_t Stack<T>::currentSize()
-{
-  return (top + 1);
+  return 0;
 }
