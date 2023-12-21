@@ -1,8 +1,7 @@
+#include <iostream>
+
 #ifndef STACK_USING_ARRAY
 #define STACK_USING_ARRAY
-
-#include <iostream>
-#include <stdexcept>
 
 template <class T>
 class Stack
