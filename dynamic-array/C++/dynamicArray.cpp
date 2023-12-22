@@ -1,11 +1,15 @@
+#include <new>
+#include <stdexcept>
 #include "dynamicArray.h"
 
 template <class T>
 void DynamicArray<T>::shrink()
 {
-  size_t shrinkedSize = this->size - 1;
-  if (shrinkedSize > 0)
+  size_t currentSize = this->getSize();
+
+  if (currentSize > 0)
   {
+    size_t shrinkedSize = currentSize - 1;
     T *shrinkedArray{new T[shrinkedSize]};
 
     for (size_t i{0}; i < shrinkedSize; ++i)
@@ -19,8 +23,7 @@ void DynamicArray<T>::shrink()
   }
   else
   {
-    this->size = 0;
-    delete[] this->array;
+    throw std::underflow_error("Array in underflow state");
   }
 }
 
@@ -40,10 +43,6 @@ void DynamicArray<T>::expand()
     delete[] this->array;
     this->size = expandedSize;
     this->array = expandedArray;
-  }
-  else
-  {
-    throw std::bad_alloc("Memory allocation failed.");
   }
 }
 
@@ -103,17 +102,11 @@ void DynamicArray<T>::pushBack(const T &value)
 }
 
 template <class T>
-T &DynamicArray<T>::popBack()
+T DynamicArray<T>::popBack()
 {
-  const size_t lastIndex = this->size - 1;
-  if (lastIndex > -1)
-  {
-    const poppedElement = this->array[lastIndex];
-    this->shrink();
-    return poppedElement;
-  }
-
-  throw std::underflow_error("Array in underflow state");
+  T poppedElement = this->array[this->getSize() - 1];
+  this->shrink();
+  return poppedElement;
 }
 
 template <class T>
@@ -130,11 +123,11 @@ void DynamicArray<T>::pushFront(const T &value)
 }
 
 template <class T>
-T &DynamicArray<T>::popFront()
+T DynamicArray<T>::popFront()
 {
   if (this->size > 0)
   {
-    const poppedElement = this->array[0];
+    T poppedElement = this->array[0];
     const DynamicArray<T> tempArray = *this;
     this->shrink();
     for (size_t i{0}; i < this->size; ++i)
