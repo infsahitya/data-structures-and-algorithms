@@ -16,15 +16,16 @@ public:
   DynamicArray();
   DynamicArray(const DynamicArray<T> &copyDynamicArray);
   ~DynamicArray();
-  DynamicArray<T> &operator=(const DynamicArray<T> &copyDynamicArray);
-  T &operator[](const size_t index);
-  const T &operator[](const size_t index) const;
-  void pushBack(const T &value);
+  
   T popBack();
-  void pushFront(const T &value);
   T popFront();
   bool isEmpty();
   size_t getSize() const;
+  void pushBack(const T &value);
+  void pushFront(const T &value);
+  T &operator[](const size_t index);
+  const T &operator[](const size_t index) const;
+  DynamicArray<T> &operator=(const DynamicArray<T> &copyDynamicArray);
 };
 
 #include "dynamicArray.cpp"

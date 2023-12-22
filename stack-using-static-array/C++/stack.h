@@ -1,7 +1,7 @@
 #include <iostream>
 
-#ifndef STACK_USING_ARRAY
-#define STACK_USING_ARRAY
+#ifndef STACK_USING_STATIC_ARRAY
+#define STACK_USING_STATIC_ARRAY
 
 template <class T>
 class Stack
@@ -16,6 +16,7 @@ public:
   Stack(const Stack<T> &copyStack);
   Stack<T> &operator=(const Stack<T> &copyStack);
   ~Stack();
+  
   T &pop();
   T &getTop();
   bool isFull();

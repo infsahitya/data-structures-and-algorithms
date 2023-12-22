@@ -15,6 +15,7 @@ public:
   Stack(const Stack<T> &copyStack);
   Stack<T> &operator=(const Stack<T> &copyStack);
   ~Stack();
+  
   T pop();
   T &getTop();
   bool isEmpty();
