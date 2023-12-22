@@ -33,17 +33,14 @@ void DynamicArray<T>::expand()
   size_t expandedSize = this->size + 1;
   T *expandedArray{new T[expandedSize]};
 
-  if (expandedArray != nullptr)
+  for (size_t i{0}; i < this->size; ++i)
   {
-    for (size_t i{0}; i < this->size; ++i)
-    {
-      expandedArray[i] = this->array[i];
-    }
-
-    delete[] this->array;
-    this->size = expandedSize;
-    this->array = expandedArray;
+    expandedArray[i] = this->array[i];
   }
+
+  delete[] this->array;
+  this->size = expandedSize;
+  this->array = expandedArray;
 }
 
 template <class T>
@@ -117,9 +114,8 @@ void DynamicArray<T>::pushFront(const T &value)
   this->array[0] = value;
   for (size_t i{1}; i < this->size; ++i)
   {
-    this->array[i] = tempArray->array[i - 1];
+    this->array[i] = tempArray[i];
   }
-  delete tempArray;
 }
 
 template <class T>
@@ -132,10 +128,8 @@ T DynamicArray<T>::popFront()
     this->shrink();
     for (size_t i{0}; i < this->size; ++i)
     {
-      this->array[i] = tempArray->array[i + 1];
+      this->array[i] = tempArray[i + 1];
     }
-
-    delete tempArray;
     return poppedElement;
   }
 
