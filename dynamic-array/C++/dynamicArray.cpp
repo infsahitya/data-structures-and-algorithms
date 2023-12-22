@@ -103,7 +103,7 @@ void DynamicArray<T>::pushBack(const T &value)
 }
 
 template <class T>
-const T &DynamicArray<T>::popBack()
+T &DynamicArray<T>::popBack()
 {
   const size_t lastIndex = this->size - 1;
   if (lastIndex > -1)
@@ -130,7 +130,7 @@ void DynamicArray<T>::pushFront(const T &value)
 }
 
 template <class T>
-const T &DynamicArray<T>::popFront()
+T &DynamicArray<T>::popFront()
 {
   if (this->size > 0)
   {
