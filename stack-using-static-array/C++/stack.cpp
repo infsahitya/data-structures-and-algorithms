@@ -19,7 +19,7 @@ Stack<T> &Stack<T>::operator=(const Stack<T> &copyStack)
 {
   if (this != &copyStack)
   {
-    delete[] stack;
+    delete[] this->stack;
     this->maxSize = copyStack.maxSize;
     this->top = copyStack.top;
     this->stack = new T[this->maxSize];
