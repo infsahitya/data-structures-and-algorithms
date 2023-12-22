@@ -14,7 +14,9 @@ private:
 
 public:
   DynamicArray();
+  DynamicArray(const DynamicArray<T> &copyDynamicArray);
   ~DynamicArray();
+  DynamicArray<T> &operator=(const DynamicArray<T> &copyDynamicArray);
   T &operator[](const size_t index);
   const T &operator[](const size_t index) const;
   void pushBack(const T &value);

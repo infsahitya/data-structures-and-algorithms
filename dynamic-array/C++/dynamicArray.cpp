@@ -36,6 +36,24 @@ template <class T>
 DynamicArray<T>::DynamicArray() : array{nullptr}, size{0} {};
 
 template <class T>
+DynamicArray<T>::DynamicArray(const DynamicArray<T> &copyDynamicArray) : size{copyDynamicArray.getSize()}
+{
+  std::copy(copyDynamicArray.array, copyDynamicArray.array + this->size, this->array);
+}
+
+template <class T>
+DynamicArray<T> &DynamicArray<T>::operator=(const DynamicArray<T> &copyDynamicArray)
+{
+  if (this != &copyDynamicArray)
+  {
+    this->size = copyDynamicArray.getSize();
+    std::copy(copyDynamicArray.array, copyDynamicArray.array + this->size, this->array);
+  }
+
+  return *this;
+}
+
+template <class T>
 DynamicArray<T>::~DynamicArray()
 {
   delete[] this->array;
