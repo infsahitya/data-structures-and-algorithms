@@ -7,7 +7,7 @@
 int main()
 {
   size_t userStackSize{0};
-  std::string userChoice;
+  char userChoice;
 
   std::cout << "What should be the size of your integer stack? ";
   std::cin >> userStackSize;
@@ -32,29 +32,29 @@ int main()
       std::cin >> userChoice;
       std::cout << std::endl;
 
-      std::transform(userChoice.begin(), userChoice.end(), userChoice.begin(), ::tolower);
+      userChoice = std::tolower(static_cast<unsigned char>(userChoice));
 
-      if (userChoice == "d")
+      if (userChoice == 'd')
       {
         intStack.display();
       }
-      else if (userChoice == "i")
+      else if (userChoice == 'i')
       {
         int value;
         std::cout << "Enter the value you want to push: ";
         std::cin >> value;
         intStack.push(value);
       }
-      else if (userChoice == "p")
+      else if (userChoice == 'p')
       {
         const int poppedElement = intStack.pop();
         std::cout << "Popped " << poppedElement << " from the stack.";
       }
-      else if (userChoice == "c")
+      else if (userChoice == 'c')
       {
         std::cout << "Current size of stack is " << intStack.currentSize() << " out of max size of " << userStackSize;
       }
-      else if (userChoice == "t")
+      else if (userChoice == 't')
       {
         const int &topElement = intStack.getTop();
         std::cout << "Top element of the stack is " << topElement;
@@ -72,7 +72,7 @@ int main()
     {
       std::cerr << "Exception: " << error.what() << std::endl;
     }
-  } while (userChoice != "exit" && userChoice != "e");
+  } while (userChoice != 'e');
 
   std::cout << "Exiting the program..." << std::endl;
 
