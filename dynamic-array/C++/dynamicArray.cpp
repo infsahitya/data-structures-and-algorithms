@@ -4,16 +4,24 @@ template <class T>
 void DynamicArray<T>::shrink()
 {
   size_t shrinkedSize = this->size - 1;
-  T *shrinkedArray{new T[shrinkedSize]};
-
-  for (size_t i{0}; i < shrinkedSize; ++i)
+  if (shrinkedSize > 0)
   {
-    shrinkedArray[i] = this->array[i];
-  }
+    T *shrinkedArray{new T[shrinkedSize]};
 
-  delete[] this->array;
-  this->size = shrinkedSize;
-  this->array = shrinkedArray;
+    for (size_t i{0}; i < shrinkedSize; ++i)
+    {
+      shrinkedArray[i] = this->array[i];
+    }
+
+    delete[] this->array;
+    this->size = shrinkedSize;
+    this->array = shrinkedArray;
+  }
+  else
+  {
+    this->size = 0;
+    delete[] this->array;
+  }
 }
 
 template <class T>
@@ -22,14 +30,21 @@ void DynamicArray<T>::expand()
   size_t expandedSize = this->size + 1;
   T *expandedArray{new T[expandedSize]};
 
-  for (size_t i{0}; i < this->size; ++i)
+  if (expandedArray != nullptr)
   {
-    expandedArray[i] = this->array[i];
-  }
+    for (size_t i{0}; i < this->size; ++i)
+    {
+      expandedArray[i] = this->array[i];
+    }
 
-  delete[] this->array;
-  this->size = expandedSize;
-  this->array = expandedArray;
+    delete[] this->array;
+    this->size = expandedSize;
+    this->array = expandedArray;
+  }
+  else
+  {
+    throw std::bad_alloc("Memory allocation failed.");
+  }
 }
 
 template <class T>
@@ -38,6 +53,8 @@ DynamicArray<T>::DynamicArray() : array{nullptr}, size{0} {};
 template <class T>
 DynamicArray<T>::DynamicArray(const DynamicArray<T> &copyDynamicArray) : size{copyDynamicArray.getSize()}
 {
+  this->size = copyDynamicArray.getSize();
+  this->array = new T[this->size];
   std::copy(copyDynamicArray.array, copyDynamicArray.array + this->size, this->array);
 }
 
@@ -47,6 +64,7 @@ DynamicArray<T> &DynamicArray<T>::operator=(const DynamicArray<T> &copyDynamicAr
   if (this != &copyDynamicArray)
   {
     this->size = copyDynamicArray.getSize();
+    this->array = new T[this->size];
     std::copy(copyDynamicArray.array, copyDynamicArray.array + this->size, this->array);
   }
 
@@ -62,7 +80,7 @@ DynamicArray<T>::~DynamicArray()
 template <class T>
 T &DynamicArray<T>::operator[](const size_t index)
 {
-  if (index > 0 && index < this->size)
+  if (index < this->size)
     return this->array[index];
 
   throw std::out_of_range("Index of out bounds");
@@ -71,7 +89,7 @@ T &DynamicArray<T>::operator[](const size_t index)
 template <class T>
 const T &DynamicArray<T>::operator[](const size_t index) const
 {
-  if (index > 0 && index < this->size)
+  if (index < this->size)
     return this->array[index];
 
   throw std::out_of_range("Index of out bounds");
@@ -85,36 +103,50 @@ void DynamicArray<T>::pushBack(const T &value)
 }
 
 template <class T>
-T &DynamicArray<T>::popBack() const
+const T &DynamicArray<T>::popBack()
 {
-  const poppedElement = this->array[this->size - 1];
-  this->shrink();
-  return poppedElement;
+  const size_t lastIndex = this->size - 1;
+  if (lastIndex > -1)
+  {
+    const poppedElement = this->array[lastIndex];
+    this->shrink();
+    return poppedElement;
+  }
+
+  throw std::underflow_error("Array in underflow state");
 }
 
 template <class T>
 void DynamicArray<T>::pushFront(const T &value)
 {
-  const DynamicArray<T> tempArray = this->array;
+  const DynamicArray<T> tempArray = *this;
   this->expand();
   this->array[0] = value;
   for (size_t i{1}; i < this->size; ++i)
   {
-    this->array[i] = tempArray[i - 1];
+    this->array[i] = tempArray->array[i - 1];
   }
+  delete tempArray;
 }
 
 template <class T>
-T &DynamicArray<T>::popFront() const
+const T &DynamicArray<T>::popFront()
 {
-  const poppedElement = this->array[0];
-  const DynamicArray<T> tempArray = this->array;
-  this->shrink();
-  for (size_t i{0}; i < this->size; ++i)
+  if (this->size > 0)
   {
-    this->array[i] = tempArray[i + 1];
+    const poppedElement = this->array[0];
+    const DynamicArray<T> tempArray = *this;
+    this->shrink();
+    for (size_t i{0}; i < this->size; ++i)
+    {
+      this->array[i] = tempArray->array[i + 1];
+    }
+
+    delete tempArray;
+    return poppedElement;
   }
-  return poppedElement;
+
+  throw std::underflow_error("Array in underflow state");
 }
 
 template <class T>

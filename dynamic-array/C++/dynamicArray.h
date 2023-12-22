@@ -20,9 +20,9 @@ public:
   T &operator[](const size_t index);
   const T &operator[](const size_t index) const;
   void pushBack(const T &value);
-  T &popBack() const;
+  const T &popBack();
   void pushFront(const T &value);
-  T &popFront() const;
+  const T &popFront();
   bool isEmpty();
   size_t getSize() const;
 };
