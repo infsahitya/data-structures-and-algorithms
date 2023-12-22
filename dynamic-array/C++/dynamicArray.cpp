@@ -73,3 +73,40 @@ T &DynamicArray<T>::popBack() const
   this->shrink();
   return poppedElement;
 }
+
+template <class T>
+void DynamicArray<T>::pushFront(const T &value)
+{
+  const DynamicArray<T> tempArray = this->array;
+  this->expand();
+  this->array[0] = value;
+  for (size_t i{1}; i < this->size; ++i)
+  {
+    this->array[i] = tempArray[i - 1];
+  }
+}
+
+template <class T>
+T &DynamicArray<T>::popFront() const
+{
+  const poppedElement = this->array[0];
+  const DynamicArray<T> tempArray = this->array;
+  this->shrink();
+  for (size_t i{0}; i < this->size; ++i)
+  {
+    this->array[i] = tempArray[i + 1];
+  }
+  return poppedElement;
+}
+
+template <class T>
+bool DynamicArray<T>::isEmpty()
+{
+  return this->size == 0;
+}
+
+template <class T>
+size_t DynamicArray<T>::getSize() const
+{
+  return this->size;
+}
