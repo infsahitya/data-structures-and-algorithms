@@ -114,7 +114,7 @@ void DynamicArray<T>::pushFront(const T &value)
   this->array[0] = value;
   for (size_t i{1}; i < this->size; ++i)
   {
-    this->array[i] = tempArray[i];
+    this->array[i] = tempArray[i-1];
   }
 }
 
